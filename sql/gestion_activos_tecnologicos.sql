@@ -1,9 +1,5 @@
-CREATE DATABASE IF NOT EXISTS gestion_activos_tecnologicos;
+CREATE DATABASE gestion_activos_tecnologicos;
 USE gestion_activos_tecnologicos;
-
--- =========================
--- TABLAS BASE
--- =========================
 
 CREATE TABLE rol (
     id_rol INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,10 +69,6 @@ CREATE TABLE marca (
     descripcion VARCHAR(255)
 );
 
--- =========================
--- ACTIVOS
--- =========================
-
 CREATE TABLE activo (
     id_activo INT AUTO_INCREMENT PRIMARY KEY,
     id_tipo_activo INT NOT NULL,
@@ -109,10 +101,6 @@ CREATE TABLE asignacion_activo (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- =========================
--- TIPOS Y ESTADOS
--- =========================
-
 CREATE TABLE tipo_mantenimiento (
     id_tipo_mantenimiento INT AUTO_INCREMENT PRIMARY KEY,
     nombre_tipo VARCHAR(100) NOT NULL,
@@ -134,10 +122,6 @@ CREATE TABLE ans (
     descripcion VARCHAR(255)
 );
 
--- =========================
--- TICKETS DE SOPORTE
--- =========================
-
 CREATE TABLE ticket (
     id_ticket INT AUTO_INCREMENT PRIMARY KEY,
     id_activo INT NOT NULL,
@@ -156,10 +140,6 @@ CREATE TABLE ticket (
     FOREIGN KEY (id_ans) REFERENCES ans(id_ans)
 );
 
--- =========================
--- MANTENIMIENTOS
--- =========================
-
 CREATE TABLE mantenimiento (
     id_mantenimiento INT AUTO_INCREMENT PRIMARY KEY,
     id_ticket INT NOT NULL,
@@ -169,10 +149,6 @@ CREATE TABLE mantenimiento (
     FOREIGN KEY (id_ticket) REFERENCES ticket(id_ticket),
     FOREIGN KEY (id_tipo_mantenimiento) REFERENCES tipo_mantenimiento(id_tipo_mantenimiento)
 );
-
--- =========================
--- ASIGNACION DE TECNICOS
--- =========================
 
 CREATE TABLE asignacion_tecnico (
     id_asignacion_tecnico INT AUTO_INCREMENT PRIMARY KEY,
@@ -188,10 +164,6 @@ CREATE TABLE asignacion_tecnico (
     FOREIGN KEY (id_usuario_tecnico) REFERENCES usuario(id_usuario)
 );
 
--- =========================
--- LICENCIAS DE SOFTWARE
--- =========================
-
 CREATE TABLE licencia_software (
     id_licencia INT AUTO_INCREMENT PRIMARY KEY,
     id_activo INT NOT NULL,
@@ -204,10 +176,6 @@ CREATE TABLE licencia_software (
     observaciones TEXT,
     FOREIGN KEY (id_activo) REFERENCES activo(id_activo)
 );
-
--- =========================
--- DATOS INICIALES
--- =========================
 
 INSERT INTO rol (nombre_rol, descripcion) VALUES
 ('Administrador del sistema', 'Acceso total al sistema'),
@@ -259,3 +227,24 @@ INSERT INTO ans (tipo_solicitud, prioridad, tiempo_respuesta_horas, tiempo_soluc
 ('Soporte técnico', 'Alta', 2, 8, 'Atención prioritaria'),
 ('Soporte técnico', 'Media', 4, 24, 'Atención normal'),
 ('Soporte técnico', 'Baja', 8, 48, 'Atención baja prioridad');
+
+INSERT INTO usuario (
+id_rol,
+id_area,
+nombre_completo,
+documento,
+cargo,
+correo,
+telefono,
+estado_usuario
+)
+VALUES (
+1,
+1,
+'Administrador General',
+'123456789',
+'Administrador',
+'admin@inventech.com',
+'3001234567',
+'Activo'
+);
